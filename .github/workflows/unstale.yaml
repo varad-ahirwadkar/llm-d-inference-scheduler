@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       issues: write
+      pull-requests: write
     if: >-
       github.event.issue.state == 'open' &&
       (contains(github.event.issue.labels.*.name, 'lifecycle/stale') || 
@@ -23,5 +24,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Removing 'stale' label from issue #${{ github.event.issue.number }}"
-          gh issue edit ${{ github.event.issue.number }} --remove-label "lifecycle/stale,lifecycle/rotten"
+          echo "Removing stale labels from issue #${{ github.event.issue.number }}"
+          gh issue edit ${{ github.event.issue.number }} --remove-label "lifecycle/stale" || true
+          gh issue edit ${{ github.event.issue.number }} --remove-label "lifecycle/rotten" || true
