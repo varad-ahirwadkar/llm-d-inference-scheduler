@@ -24,6 +24,8 @@ limitations under the License.
 // inference requests.
 package main
 
+// Trigger CI lint-and-test
+
 import (
 	"os"
 
