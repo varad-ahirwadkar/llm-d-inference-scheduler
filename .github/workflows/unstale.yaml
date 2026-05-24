@@ -34,7 +34,8 @@ jobs:
       - name: 'Remove stale labels'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_NUMBER: ${{ github.event.issue.number || github.event.pull_request.number }}
         run: |
-          echo "Removing stale labels from issue #${{ github.event.issue.number }}"
-          gh issue edit ${{ github.event.issue.number }} --remove-label "lifecycle/stale" || true
-          gh issue edit ${{ github.event.issue.number }} --remove-label "lifecycle/rotten" || true
+          echo "Removing stale labels from item #$TARGET_NUMBER"
+          gh issue edit "$TARGET_NUMBER" --remove-label "lifecycle/stale" || true
+          gh issue edit "$TARGET_NUMBER" --remove-label "lifecycle/rotten" || true
