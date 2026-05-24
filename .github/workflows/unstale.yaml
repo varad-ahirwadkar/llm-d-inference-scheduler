@@ -5,6 +5,8 @@ on:
     types: [ reopened ]
   issue_comment:
     types: [ created ]
+  pull_request:
+    types: [ reopened ]
 
 jobs:
   remove-stale:
