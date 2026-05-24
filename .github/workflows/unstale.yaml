@@ -15,9 +15,18 @@ jobs:
       issues: write
       pull-requests: write
     if: >-
-      github.event.issue.state == 'open' &&
-      (contains(github.event.issue.labels.*.name, 'lifecycle/stale') || 
-       contains(github.event.issue.labels.*.name, 'lifecycle/rotten'))
+      (
+        github.event_name == 'pull_request' &&
+        github.event.pull_request.state == 'open' &&
+        (contains(github.event.pull_request.labels.*.name, 'lifecycle/stale') ||
+         contains(github.event.pull_request.labels.*.name, 'lifecycle/rotten'))
+      ) ||
+      (
+        github.event_name != 'pull_request' &&
+        github.event.issue.state == 'open' &&
+        (contains(github.event.issue.labels.*.name, 'lifecycle/stale') ||
+         contains(github.event.issue.labels.*.name, 'lifecycle/rotten'))
+      )
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v6
